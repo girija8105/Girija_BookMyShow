@@ -22,9 +22,10 @@ import pom.SignInPage;
  *
  */
 public class BaseClass {
-	
-public static WebDriver driver;
-	
+
+	public static WebDriver driver;
+
+	//launch and maximize the browser
 	@Parameters("browser")
 	@BeforeClass(alwaysRun = true)
 	public void openBrowser(@Optional("chrome") String browserName) {
@@ -38,38 +39,39 @@ public static WebDriver driver;
 		driver.manage().window().maximize();
 		Reporter.log("openBrowser",true);
 		driver.manage().timeouts().implicitlyWait(10,TimeUnit.SECONDS);
-		
+
 	}
-	
+	//Enter url
 	@BeforeMethod(alwaysRun = true)
 	public void  signIn() throws IOException, InterruptedException {
 		FileUtil f=new FileUtil();
 		String url = f.readPropertyFile("url");
 		//String mobileNumber = f.readPropertyFile("mobilenumber");
 		driver.get(url);
-		
+
 		HomePage hompepage=new HomePage(driver);
 		hompepage.getNotNowBtn().click();
 		hompepage.getSelectBengaluruLocation().click();
-	//	hompepage.getSignInBtn().click();
-		
-//		SignInPage si=new SignInPage(driver);
-//		si.getContinueMobileTextField().sendKeys(mobileNumber);
-//		si.getContinueBtn().click();
+		//	hompepage.getSignInBtn().click();
+
+		//		SignInPage si=new SignInPage(driver);
+		//		si.getContinueMobileTextField().sendKeys(mobileNumber);
+		//		si.getContinueBtn().click();
 		Reporter.log("signIn",true);
-	//	Thread.sleep(15000);
-		
+		//	Thread.sleep(15000);
+
 	}
-	
+
 	@AfterMethod(alwaysRun = true)
 	public void  logout() {
-		Reporter.log("logout",true);
-	}
 	
+	}
+
+	//closing the browser
 	@AfterClass(alwaysRun = true)
 	public void closeBrowser() {
 		Reporter.log("close the browser",true);
-		//driver.close();
-		
+		driver.close();
+
 	}
 }
